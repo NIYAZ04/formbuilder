@@ -29,7 +29,24 @@ const generateEditorElement = (type) => {
             value: '',
           },
         ],
-      }
+      };
+    case 'star-rating':
+      return {
+        ...commonFields,
+        rating: 0, // Default rating value
+      };
+    case 'file-upload':
+      return {
+        ...commonFields,
+        file: null, // To store uploaded file
+        uploadFile: (file) => {
+          // Method to handle file upload
+          console.log('Uploading file:', file);
+          // You can perform additional logic here, like uploading the file to a server
+        },
+      };
+      case 'submit':
+      return commonFields; // No additional data needed for submit button
     default:
       return null
   }

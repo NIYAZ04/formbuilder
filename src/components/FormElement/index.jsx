@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux'
 import { ElementTypesText } from '../../constants/elementTypes'
 import { openDrawer } from '../../store/drawerSlice'
 import { removeEditorElement } from '../../store/globalSlice'
+import { AiFillStar } from 'react-icons/ai'; // Importing 5-star rating icon
+
 
 const TextInput = ({ ...props }) => {
   const { placeHolder } = props
@@ -49,10 +51,71 @@ const DropDown = ({ ...props }) => {
   )
 }
 
+const StarRating = ({ ...props }) => {
+  const [rating, setRating] = React.useState(0);
+
+  const handleStarClick = (index) => {
+    setRating(index + 1);
+  };
+
+  return (
+    <div className="px-4 py-2 flex flex-col gap-1">
+      <div>Star Rating: {rating}</div>
+      <div>
+        {[...Array(5)].map((_, index) => (
+          <AiFillStar
+            key={index}
+            onClick={() => handleStarClick(index)}
+            style={{ cursor: 'pointer', color: index < rating ? 'gold' : 'gray' }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const FileUpload = ({ ...props }) => {
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    // Handle the file upload logic here, for example:
+    console.log('Uploaded file:', file);
+  };
+
+  return (
+    <div className="px-4 py-2 flex flex-col gap-1">
+      <div>File Upload</div>
+      <input type="file" onChange={handleFileChange} />
+    </div>
+  );
+};
+
+
+const SubmitButton = () => {
+  const handleSubmit = () => {
+    // Implement your submit logic here
+    console.log('Form submitted');
+  };
+
+  return (
+    <div className="flex justify-center">
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
+    </div>
+  );
+};
+
 const ElementTypes = {
   'text-input': TextInput,
   'text-area': TextArea,
   dropdown: DropDown,
+  'star-rating': StarRating, // Adding 5-star rating component to ElementTypes
+  'file-upload': FileUpload, // Adding file upload component to ElementTypes
+  submit: SubmitButton, // Adding submit button to ElementTypes
+
 }
 
 const FormElement = ({ withToolkit, ...props }) => {
